@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useRef } from "react";
 import randomArray from "@/app/_services/RandomArray";
 import { AbstractSorter } from "@/app/_services/Sorter";

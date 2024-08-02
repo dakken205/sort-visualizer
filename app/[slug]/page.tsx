@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Visualizer from "@/app/_components/Visualizer";
 import { Sorters } from "@/app/_services/Sorter";
@@ -28,4 +26,12 @@ export default function Page({ params }: PageProps) {
       <Visualizer sorter={sorter} />
     </div>
   );
+}
+
+export function generateStaticParams() {
+  return [
+    ...Object.keys(Sorters).map((algorithm) => ({
+      slug: algorithm,
+    })),
+  ];
 }

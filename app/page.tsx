@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Card from "@/app/_components/Card";
-import { Sorters } from "./_services/Sorter";
+import { Sorters } from "@/app/_services/Sorter";
 
 import styles from "./page.module.css";
 
