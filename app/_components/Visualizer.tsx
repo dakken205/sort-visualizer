@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import randomArray from "@/app/_services/RandomArray";
-import { AbstractSorter } from "@/app/_services/Sorter";
+import { Sorters } from "@/app/_services/Sorter";
 import {
   SlControlPause,
   SlControlPlay,
@@ -10,8 +10,9 @@ import {
   SlControlRewind,
 } from "react-icons/sl";
 
+import { SortHistory } from "@/app/_types";
+
 import styles from "./Visualizer.module.css";
-import { SortHistory } from "../_types";
 
 enum PlayingState {
   PLAYING,
@@ -19,10 +20,10 @@ enum PlayingState {
 }
 
 interface SorterProps {
-  sorter: AbstractSorter;
+  algorithmIdentifier: string;
 }
 
-export default function Visualizer({ sorter }: SorterProps) {
+export default function Visualizer({ algorithmIdentifier }: SorterProps) {
   const [step, setStep] = useState(0);
   const [playingState, setPlayingState] = useState(PlayingState.PLAYING);
 
@@ -44,9 +45,10 @@ export default function Visualizer({ sorter }: SorterProps) {
   };
 
   useEffect(() => {
+    const sorter = new Sorters[algorithmIdentifier]();
     const initialArray = randomArray(30);
     sortHistoryRef.current = sorter.sort(initialArray);
-  }, [sorter]);
+  }, [algorithmIdentifier]);
 
   useEffect(() => {
     if (animationIntervalRef.current) {

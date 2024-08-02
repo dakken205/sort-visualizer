@@ -9,12 +9,11 @@ interface PageProps {
 }
 
 export default function Page({ params }: PageProps) {
-  const AlgorithmIdentifier = params.slug;
+  const algorithmIdentifier = params.slug;
 
-  if (!AlgorithmIdentifier || !Sorters[AlgorithmIdentifier]) {
+  if (!algorithmIdentifier || !Sorters[algorithmIdentifier]) {
     return <div>Invalid algorithm</div>;
   }
-  const sorter = new Sorters[AlgorithmIdentifier]();
 
   return (
     <div className={styles.globalContainer}>
@@ -23,7 +22,7 @@ export default function Page({ params }: PageProps) {
           <button className={styles.backButton}>Back</button>
         </Link>
       </div>
-      <Visualizer sorter={sorter} />
+      <Visualizer algorithmIdentifier={algorithmIdentifier} />
     </div>
   );
 }
