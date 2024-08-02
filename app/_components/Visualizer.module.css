@@ -1,0 +1,97 @@
+.container {
+  height: 60dvh;
+  width: 60dvw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.barBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.controllerBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.controller {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.controller:hover {
+  color: #f0f0f0 !important;
+}
+
+.seekBar {
+  width: 30dvw;
+  cursor: pointer;
+}
+
+.seekBar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15px;
+  height: 6px;
+  background: #ccc;
+}
+
+.seekBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 15px;
+  width: 15px;
+  background-color: #f50;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.seekBar::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #f50;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.seekBar::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 10px #ff55001a;
+}
+.seekBar:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 13px #ff550033;
+}
+.seekBar:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 13px #ff550033;
+}
+
+.seekBar::-moz-range-thumb:hover {
+  box-shadow: 0 0 0 10px #ff55001a;
+}
+.seekBar:active::-moz-range-thumb {
+  box-shadow: 0 0 0 13px #ff550033;
+}
+.seekBar:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 13px #ff550033;
+}
