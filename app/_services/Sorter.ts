@@ -41,14 +41,56 @@ export class BubbleSorter extends AbstractSorter {
 @register("insertion-sort")
 export class InsertionSorter extends AbstractSorter {
   sort(data: Array): SortHistory {
-    throw new Error("Not implemented!");
+    const history: SortHistory = [
+      {
+        data: [...data],
+        highlightedIndices: [],
+      },
+    ];
+    for (let i = 0; i < data.length; i++) {
+      for (let j = i - 1; j >= 0; j--) {
+        if (data[j + 1] < data[j]) {
+          const temp = data[j];
+          data[j] = data[j + 1];
+          data[j + 1] = temp;
+          history.push({ data: [...data], highlightedIndices: [j, j + 1] });
+        } else {
+          break;
+        }
+      }
+    }
+    history.push({ data: [...data], highlightedIndices: [] });
+    return history;
   }
 }
 
 @register("selection-sort")
 export class SelectionSorter extends AbstractSorter {
   sort(data: Array): SortHistory {
-    throw new Error("Not implemented!");
+    const history: SortHistory = [
+      {
+        data: [...data],
+        highlightedIndices: [],
+      },
+    ];
+    for (let i = 0; i < data.length; i++) {
+      let min = Infinity;
+      let min_j = i;
+      for (let j = i; j < data.length; j++) {
+        if (data[j] < min) {
+          min = data[j];
+          min_j = j;
+        }
+        history.push({ data: [...data], highlightedIndices: [i, j] });
+      }
+      history.push({ data: [...data], highlightedIndices: [i, min_j] });
+      const temp = data[i];
+      data[i] = data[min_j];
+      data[min_j] = temp;
+      history.push({ data: [...data], highlightedIndices: [i, min_j] });
+    }
+    history.push({ data: [...data], highlightedIndices: [] });
+    return history;
   }
 }
 
