@@ -95,12 +95,110 @@ export class SelectionSorter extends AbstractSorter {
   }
 }
 
+// 一時配列と置換
 @register("merge-sort")
 export class MergeSorter extends AbstractSorter {
   sort(data: Array): SortHistory {
-    throw new Error("Not implemented!");
+    const history: SortHistory = [
+      {
+        data: [...data],
+        highlightedIndices: [],
+      },
+    ];
+    let m = 1;
+    while (m < data.length) {
+      for (let i = 0; i < data.length; i += 2 * m) {
+        let l = i;
+        let r = i + m;
+        const temp = [];
+        while (
+          l < Math.min(data.length, i + m) &&
+          r < Math.min(data.length, i + 2 * m)
+        ) {
+          history.push({ data: [...data], highlightedIndices: [l, r] });
+          if (data[l] < data[r]) {
+            temp.push(data[l]);
+            l++;
+          } else {
+            temp.push(data[r]);
+            r++;
+          }
+        }
+        while (l < Math.min(data.length, i + m)) {
+          history.push({ data: [...data], highlightedIndices: [l] });
+          temp.push(data[l]);
+          l++;
+        }
+        while (r < Math.min(data.length, i + 2 * m)) {
+          history.push({ data: [...data], highlightedIndices: [r] });
+          temp.push(data[r]);
+          r++;
+        }
+        for (let j = 0; j < temp.length; j++) {
+          data[i + j] = temp[j];
+        }
+        history.push({ data: [...data], highlightedIndices: [] });
+      }
+      m *= 2;
+    }
+    return history;
   }
 }
+
+// 比較・交換のみ
+// @register("merge-sort")
+// export class MergeSorter extends AbstractSorter {
+//   sort(data: Array): SortHistory {
+//     const history: SortHistory = [
+//       {
+//         data: [...data],
+//         highlightedIndices: [],
+//       },
+//     ];
+//     for (let p = 0; p < 5; p++) {
+//       let m = 1;
+//       while (m < data.length) {
+//         for (let i = 0; i < data.length; i += 2 * m) {
+//           let l = i;
+//           let r = i + m;
+//           while (r < Math.min(data.length, i + 2 * m)) {
+//             let flag = false;
+//             history.push({ data: [...data], highlightedIndices: [l, r] });
+//             if (data[l] < data[r]) {
+//               l++;
+//             } else {
+//               const temp = data[l];
+//               data[l] = data[r];
+//               data[r] = temp;
+//               history.push({ data: [...data], highlightedIndices: [l, r] });
+//               l++;
+//               flag = true;
+//             }
+//             if (l == r) {
+//               r++;
+//             }
+//             if (r + 1 < Math.min(data.length, i + 2 * m) && flag) {
+//               history.push({
+//                 data: [...data],
+//                 highlightedIndices: [r, r + 1],
+//               });
+//               if (data[r] > data[r + 1]) {
+//                 const temp = data[r];
+//                 data[r] = data[r + 1];
+//                 data[r + 1] = temp;
+//               }
+//             }
+//           }
+//         }
+//         console.log(m);
+//         console.log(data);
+//         m *= 2;
+//       }
+//     }
+
+//     return history;
+//   }
+// }
 
 @register("quick-sort")
 export class QuickSorter extends AbstractSorter {
