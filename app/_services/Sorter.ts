@@ -235,3 +235,37 @@ export class QuickSorter extends AbstractSorter {
     return history;
   }
 }
+
+@register("bogo-sort")
+export class BogoSorter extends AbstractSorter {
+  sort(data: Array): SortHistory {
+    const history: SortHistory = [
+      {
+        data: [...data],
+        highlightedIndices: [],
+      },
+    ];
+    const isSorted = (data: Array) => {
+      for (let i = 1; i < data.length; i++) {
+        if (data[i] < data[i - 1]) {
+          return false;
+        }
+      }
+      return true;
+    };
+    let cnt = 0;
+    while (!isSorted(data) && cnt < 1000) {
+      for (let i = 1; i < data.length; i++) {
+        let l = Math.floor(Math.random() * (i - 1));
+
+        const temp = data[i];
+        data[i] = data[l];
+        data[l] = temp;
+      }
+      history.push({ data: [...data], highlightedIndices: [] });
+      cnt++;
+    }
+    history.push({ data: [...data], highlightedIndices: [] });
+    return history;
+  }
+}
