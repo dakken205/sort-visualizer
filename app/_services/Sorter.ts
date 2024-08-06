@@ -95,9 +95,33 @@ export class SelectionSorter extends AbstractSorter {
   }
 }
 
-// 一時配列と置換
 @register("merge-sort")
 export class MergeSorter extends AbstractSorter {
+  /**
+   * Replace the data array with the sorted part for visualization
+   */
+  format(
+    originalData: Array,
+    left: number,
+    mid: number,
+    right: number,
+    i: number,
+    j: number,
+    temp: Array
+  ) {
+    const data = [...originalData];
+    const sortingPart = [
+      ...temp,
+      ...data.slice(i, mid + 1),
+      ...data.slice(j, right + 1),
+    ];
+
+    for (let k = left; k <= right; k++) {
+      data[k] = sortingPart[k - left];
+    }
+    return data;
+  }
+
   sort(data: Array): SortHistory {
     const history: SortHistory = [
       {
@@ -105,100 +129,51 @@ export class MergeSorter extends AbstractSorter {
         highlightedIndices: [],
       },
     ];
-    let m = 1;
-    while (m < data.length) {
-      for (let i = 0; i < data.length; i += 2 * m) {
-        let l = i;
-        let r = i + m;
-        const temp = [];
-        while (
-          l < Math.min(data.length, i + m) &&
-          r < Math.min(data.length, i + 2 * m)
-        ) {
-          history.push({ data: [...data], highlightedIndices: [l, r] });
-          if (data[l] < data[r]) {
-            temp.push(data[l]);
-            l++;
-          } else {
-            temp.push(data[r]);
-            r++;
-          }
+
+    const _merge = (left: number, mid: number, right: number) => {
+      const temp = [];
+      let i = left;
+      let j = mid + 1;
+      while (i <= mid && j <= right) {
+        history.push({
+          data: this.format(data, left, mid, right, i, j, temp),
+          highlightedIndices: [i, j],
+        });
+        if (data[i] < data[j]) {
+          temp.push(data[i]);
+          i++;
+        } else {
+          temp.push(data[j]);
+          j++;
         }
-        while (l < Math.min(data.length, i + m)) {
-          history.push({ data: [...data], highlightedIndices: [l] });
-          temp.push(data[l]);
-          l++;
-        }
-        while (r < Math.min(data.length, i + 2 * m)) {
-          history.push({ data: [...data], highlightedIndices: [r] });
-          temp.push(data[r]);
-          r++;
-        }
-        for (let j = 0; j < temp.length; j++) {
-          data[i + j] = temp[j];
-        }
-        history.push({ data: [...data], highlightedIndices: [] });
       }
-      m *= 2;
-    }
+      while (i <= mid) {
+        temp.push(data[i]);
+        i++;
+      }
+      while (j <= right) {
+        temp.push(data[j]);
+        j++;
+      }
+      for (let i = 0; i < temp.length; i++) {
+        data[left + i] = temp[i];
+      }
+    };
+
+    const _sort = (left: number, right: number) => {
+      if (left >= right) return;
+
+      const mid = Math.floor((left + right) / 2);
+      _sort(left, mid);
+      _sort(mid + 1, right);
+      _merge(left, mid, right);
+    };
+
+    _sort(0, data.length - 1);
+    history.push({ data: [...data], highlightedIndices: [] });
     return history;
   }
 }
-
-// 比較・交換のみ
-// @register("merge-sort")
-// export class MergeSorter extends AbstractSorter {
-//   sort(data: Array): SortHistory {
-//     const history: SortHistory = [
-//       {
-//         data: [...data],
-//         highlightedIndices: [],
-//       },
-//     ];
-//     for (let p = 0; p < 5; p++) {
-//       let m = 1;
-//       while (m < data.length) {
-//         for (let i = 0; i < data.length; i += 2 * m) {
-//           let l = i;
-//           let r = i + m;
-//           while (r < Math.min(data.length, i + 2 * m)) {
-//             let flag = false;
-//             history.push({ data: [...data], highlightedIndices: [l, r] });
-//             if (data[l] < data[r]) {
-//               l++;
-//             } else {
-//               const temp = data[l];
-//               data[l] = data[r];
-//               data[r] = temp;
-//               history.push({ data: [...data], highlightedIndices: [l, r] });
-//               l++;
-//               flag = true;
-//             }
-//             if (l == r) {
-//               r++;
-//             }
-//             if (r + 1 < Math.min(data.length, i + 2 * m) && flag) {
-//               history.push({
-//                 data: [...data],
-//                 highlightedIndices: [r, r + 1],
-//               });
-//               if (data[r] > data[r + 1]) {
-//                 const temp = data[r];
-//                 data[r] = data[r + 1];
-//                 data[r + 1] = temp;
-//               }
-//             }
-//           }
-//         }
-//         console.log(m);
-//         console.log(data);
-//         m *= 2;
-//       }
-//     }
-
-//     return history;
-//   }
-// }
 
 @register("quick-sort")
 export class QuickSorter extends AbstractSorter {
