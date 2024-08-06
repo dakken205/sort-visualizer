@@ -1,0 +1,34 @@
+.footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    flex-direction: column-reverse;
+    gap: 0px;
+  }
+}
+
+.snsIcons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  max-height: 16px;
+}
+
+.copyright {
+  font-size: 0.8rem;
+}
+
+.snsIcons > a,
+.copyright > a {
+  text-decoration: none;
+  color: #111111;
+  font-weight: bold;
+}
