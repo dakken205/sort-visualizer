@@ -1,5 +1,5 @@
 .globalContainer {
-  height: 80dvh;
+  height: 95dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,8 @@
 .title {
   font-size: 2rem;
   font-weight: bold;
-  margin: 5rem;
+  text-align: center;
+  margin: clamp(1rem, 5vw, 3rem) 0;
 }
 
 .algorithmBox {
@@ -32,6 +33,7 @@
 
 .buttonBox {
   margin-top: 3rem;
+  text-align: center;
 }
 
 .startButton {
