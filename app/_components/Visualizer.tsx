@@ -19,12 +19,20 @@ enum PlayingState {
   PAUSED,
 }
 
+enum PlayingSpeed {
+  SLOW = 0.5,
+  NORMAL = 1,
+  FAST = 2,
+  VERY_FAST = 4,
+}
+
 interface SorterProps {
   algorithmIdentifier: string;
 }
 
 export default function Visualizer({ algorithmIdentifier }: SorterProps) {
   const [step, setStep] = useState(0);
+  const [playingSpeed, setPlayingSpeed] = useState(PlayingSpeed.NORMAL);
   const [playingState, setPlayingState] = useState(PlayingState.PLAYING);
 
   const animationIntervalRef = useRef<NodeJS.Timeout>();
@@ -58,8 +66,8 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
       if (playingState === PlayingState.PLAYING) {
         next();
       }
-    }, 50);
-  }, [playingState]);
+    }, 50 / playingSpeed);
+  }, [playingState, playingSpeed]);
 
   useEffect(() => {
     if (step === sortHistoryRef.current.length - 1) {
@@ -86,14 +94,36 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
         ))}
       </div>
       <div className={styles.buttonBox}>
-        <input
-          type="range"
-          onChange={(e) => setStep(parseInt(e.target.value))}
-          min={0}
-          max={sortHistoryRef.current.length - 1}
-          value={step}
-          className={styles.seekBar}
-        />
+        <div className={styles.seekBox}>
+          <input
+            type="range"
+            onChange={(e) => setStep(parseInt(e.target.value))}
+            min={0}
+            max={sortHistoryRef.current.length - 1}
+            value={step}
+            className={styles.seekBar}
+          />
+          <button
+            className={styles.speedButton}
+            onClick={() => {
+              setPlayingSpeed((prev) => {
+                switch (prev) {
+                  case PlayingSpeed.SLOW:
+                    return PlayingSpeed.NORMAL;
+                  case PlayingSpeed.NORMAL:
+                    return PlayingSpeed.FAST;
+                  case PlayingSpeed.FAST:
+                    return PlayingSpeed.VERY_FAST;
+                  case PlayingSpeed.VERY_FAST:
+                    return PlayingSpeed.SLOW;
+                }
+              });
+            }}
+          >
+            {"×"}
+            {playingSpeed}
+          </button>
+        </div>
         <div className={styles.controllerBox}>
           <SlControlRewind
             size="40"
