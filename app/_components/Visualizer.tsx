@@ -46,7 +46,7 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
 
   useEffect(() => {
     const sorter = new Sorters[algorithmIdentifier]();
-    const initialArray = randomArray(30);
+    const initialArray = randomArray(50);
     sortHistoryRef.current = sorter.sort(initialArray);
   }, [algorithmIdentifier]);
 
@@ -71,15 +71,18 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
     <div className={styles.container}>
       <div className={styles.barBox}>
         {sortHistoryRef.current[step].data.map((value, index) => (
-          <Bar
+          <div
             key={index}
-            height={value * 5}
-            color={
-              sortHistoryRef.current[step].highlightedIndices.includes(index)
-                ? "red"
-                : "blue"
-            }
-          />
+            className={styles.bar}
+            style={{
+              height: `${value * 5}px`,
+              backgroundColor: `${
+                sortHistoryRef.current[step].highlightedIndices.includes(index)
+                  ? "red"
+                  : "blue"
+              }`,
+            }}
+          ></div>
         ))}
       </div>
       <div className={styles.buttonBox}>
@@ -128,18 +131,5 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
         </div>
       </div>
     </div>
-  );
-}
-
-function Bar({ height, color }: { height: number; color: string }) {
-  return (
-    <div
-      style={{
-        height: `${height}px`,
-        width: "15px",
-        backgroundColor: color,
-        margin: "0 2px",
-      }}
-    ></div>
   );
 }

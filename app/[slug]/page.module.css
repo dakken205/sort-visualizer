@@ -8,10 +8,10 @@
 }
 
 .buttonContainer {
-  min-width: 50vw;
-  margin-left: 10px;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 1rem;
 }
 
 .backButton {
