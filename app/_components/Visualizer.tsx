@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import randomArray from "@/app/_services/RandomArray";
+import RandomArray from "@/app/_services/RandomArray";
 import { Sorters } from "@/app/_services/Sorter";
 import {
   SlControlPause,
@@ -54,7 +54,7 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
 
   useEffect(() => {
     const sorter = new Sorters[algorithmIdentifier]();
-    const initialArray = randomArray(50);
+    const initialArray = new RandomArray().generate(50);
     sortHistoryRef.current = sorter.sort(initialArray);
   }, [algorithmIdentifier]);
 
