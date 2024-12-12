@@ -35,7 +35,7 @@ export default function Visualizer({ algorithmIdentifier }: SorterProps) {
   const [playingSpeed, setPlayingSpeed] = useState(PlayingSpeed.NORMAL);
   const [playingState, setPlayingState] = useState(PlayingState.PLAYING);
 
-  const animationIntervalRef = useRef<NodeJS.Timeout>();
+  const animationIntervalRef = useRef<NodeJS.Timeout>(null);
 
   const sortHistoryRef = useRef<SortHistory>([
     {

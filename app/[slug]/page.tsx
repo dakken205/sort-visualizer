@@ -5,10 +5,11 @@ import { Sorters } from "@/app/_services/Sorter";
 import styles from "./page.module.css";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const algorithmIdentifier = params.slug;
 
   if (!algorithmIdentifier || !Sorters[algorithmIdentifier]) {

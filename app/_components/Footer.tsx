@@ -23,8 +23,7 @@ export default function Footer() {
       </div>
       <p className={styles.copyright}>
         © {new Date().getFullYear()}{" "}
-        <a href="https://uoh-dakken.com">データ分析研究会</a> All rights
-        reserved.
+        <a href="https://uoh-dakken.com">データ分析研究会</a>
       </p>
     </footer>
   );
